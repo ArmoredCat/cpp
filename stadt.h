@@ -67,6 +67,7 @@ public:
 	StadtList();
 
 	vector<Stadt>::iterator findStadt(string name);
+	vector<Stadt>::iterator findStadt(int id);
 	vector<Stadt>::iterator end();
 	vector<Stadt>::iterator begin();
 	bool empty();

@@ -2,6 +2,7 @@
 #define STRASSE_H
 
 #include "gebiet.h"
+#include "stadt.h"
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -15,13 +16,13 @@ class Strasse
 public:
 	Strasse(istream& s)
 	{
-		s >> vonstadtId >> nachstadtId >> entfernung;
+		s >> vonStadtId >> nachStadtId >> entfernung;
 		if (!s)  throw EOFException();  // abort constructor!
 	}
 
 	void print(ostream& o = cout) const
 	{
-		o << " (" << vonstadtId << ", " << nachStadtId << ", " << entfernung << ")\n";
+		o << " (" << vonStadtId << ", " << nachStadtId << ", " << entfernung << ")\n";
 	}
 
 	bool operator< (const Strasse& str) const { return vonStadtId < str.vonStadtId; }
@@ -60,7 +61,8 @@ public:
 	bool empty();
 	void insert(Strasse& str);
 	void PrintStrasse(StrasseList strl);
-	StrasseList findErlStrasse(StrasseList verbstrasse, GebietList verbgeb, StrasseList sl);
+	StrasseList findErlStrasse(StrasseList verbstrasse, StadtList verbstadt, StrasseList strl);
+	int FindeRoute(StrasseList erlStrasse, StadtList sl, vector<Stadt>::iterator startstadt, vector<Gebiet>::iterator zielstadt);
 	vector<Strasse> strassen;
 
 private:

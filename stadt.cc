@@ -54,6 +54,18 @@ vector<Stadt>::iterator StadtList::findStadt(string name)
 	exit(1);
 }
 
+vector<Stadt>::iterator StadtList::findStadt(int id)
+{
+	for (vector<Stadt>::iterator it = staedte.begin(); it != staedte.end(); it++)
+	{
+		cout << "(" << it->getName() << ", " << it->getID() << ", " << it->getGebietId() << ")\n";
+		if (it->getID() == id)
+			return it;
+	}
+	cout << "Die eingegebene Stadt mit ID '" << id << "' existiert nicht!\n";
+	exit(1);
+}
+
 StadtList StadtList::findVerbStadt(StadtList verbstadt, GebietList verbgeb, StadtList sl)
 {
 	for (vector<Gebiet>::iterator gebiet = verbgeb.gebiete.begin(); gebiet != verbgeb.gebiete.end(); gebiet++)

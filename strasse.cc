@@ -45,20 +45,57 @@ void StrasseList::insert(Strasse& g) {
 
 StrasseList StrasseList::findErlStrasse(StrasseList erlstrasse, StadtList verbstadt, StrasseList strl)
 {
-	for (vector<strl>::iterator strasse = strl.strassen.begin(); strasse != strl.strassen.end(); strasse++)
+	int boo;
+
+	for (vector<Strasse>::iterator strasse = strl.strassen.begin(); strasse != strl.strassen.end(); strasse++)
 	{
-		for (vector<Stadt>::iterator stadt = sl.staedte.begin(); stadt != sl.staedte.end(); stadt++)
+		boo = 1;
+		for (vector<Stadt>::iterator stadt = verbstadt.staedte.begin(); stadt != verbstadt.staedte.end(); stadt++)
 		{
-			if (stadt->getID() != strasse->getVonStadtId() && stadt->getID() != strasse->getNachStadtId()) {
-				erlstrasse.insert(*strasse);
+			if (stadt->getID() == strasse->getVonStadtId() || stadt->getID() == strasse->getNachStadtId()) {
+				boo = 0;
+				break;
 			}
 		}
+		if(boo==1)
+			erlstrasse.insert(*strasse);
 	}
 	return erlstrasse;
 }
 
-void StrasseList::PrintStrasse(StrasseList sl)
+int StrasseList::FindeRoute(StrasseList erlStrasse, StadtList sl, vector<Stadt>::iterator startstadt, vector<Gebiet>::iterator zielstadt)
 {
-	for (vector<Strasse>::iterator it = sl.strassen.begin(); it != sl.strassen.end(); it++)
-		cout << it->getVonStadtId << ", " << it->getNachStadtId << "\n";
+    if (startstadt->getID() == zielstadt->getID())
+    {
+        fprintf(stderr, "%s\n", startstadt->getName());
+        return 1;
+    }
+	for (vector<Strasse>::iterator strasse = erlStrasse.strassen.begin(); strasse != erlStrasse.strassen.end(); strasse++)
+	{
+        if (strasse->vonStadtId() == 0 || strasse->nachStadtId() == 0)
+            continue;
+        else if (startstadt->getID() == strasse->getVonStadtId)
+        {
+            if (FindeRoute(erlStrasse, sl, sl.findStadt(strasse->getNachStadtId), zielstadt) == 1)
+            {
+                cout << "\n" << startstadt->getName();
+                return 1;
+            }
+        }
+        else if (startstadt->getID == strasse->getNachStadtId)
+        {
+			if (FindeRoute(erlStrasse, sl, sl.findStadt(strasse->getVonStadtId), zielstadt) == 1)
+			{
+				cout << "\n" << startstadt->getName();
+				return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+void StrasseList::PrintStrasse(StrasseList strl)
+{
+	for (vector<Strasse>::iterator it = strl.strassen.begin(); it != strl.strassen.end(); it++)
+		cout << it->getVonStadtId() << ", " << it->getNachStadtId() << "\n";
 }
