@@ -18,32 +18,13 @@ public:
 	{
 		s >> vonStadtId >> nachStadtId >> entfernung;
 		if (!s)  throw EOFException();  // abort constructor!
-		verboten = false;
+		verboten = true;
 		besuchtVonStadt = false;
 		besuchtNachStadt = false;
 	}
 
-	void print(ostream& o = cout) const
-	{
-		o << " (" << vonStadtId << ", " << nachStadtId << ", " << entfernung << ")\n";
-	}
-
-	bool operator< (const Strasse& str) const { return vonStadtId < str.vonStadtId; }
-
-	bool printOrder(const Strasse* str) const
-	{
-		if (nachStadtId < str->nachStadtId) return true;
-		if (nachStadtId > str->nachStadtId) return false;
-		if (entfernung < str->entfernung) return true;
-		if (entfernung > str->entfernung) return false;
-		return false;
-	}
-
 	int getVonStadtId() const { return vonStadtId; }
 	int getNachStadtId() const { return nachStadtId; }
-	int getEntfernung() const { return entfernung; }
-	void setVonStadtId(int newint) { vonStadtId=newint; }
-	void setNachStadtId(int newint) { nachStadtId=newint; }
 
 	bool verboten;
 	bool besuchtVonStadt;
@@ -52,12 +33,6 @@ public:
 private:
 	unsigned vonStadtId, nachStadtId, entfernung;
 };
-
-inline ostream& operator<< (ostream& o, const Strasse& str)
-{
-	str.print(o);  return o;
-}
-
 
 class StrasseList
 {
@@ -69,9 +44,9 @@ public:
 	vector<Strasse>::iterator begin();
 	bool empty();
 	void insert(Strasse& str);
-	void PrintStrasse(StrasseList strl);
 	void findErlStrasse(StadtList sl, StrasseList &strl);
 	int FindeRoute(StrasseList strl, StadtList sl, vector<Stadt>::iterator startstadt, vector<Stadt>::iterator zielstadt);
+
 	vector<Strasse> strassen;
 
 private:

@@ -1,20 +1,12 @@
 #include "strasse.h"
 #include "gebiet.h"
 #include "stadt.h"
+
 #include <fstream>
 #include <exception>
 #include <string>
 #include <iomanip>
 #include <vector>
-#include <fstream>
-
-struct StrasseOrder
-{
-	bool operator() (const Strasse* a, const Strasse* b) const
-	{
-		return *a < *b;
-	}
-};
 
 StrasseList::StrasseList() {
 
@@ -61,9 +53,7 @@ void StrasseList::findErlStrasse(StadtList sl, StrasseList &strl)
 			}
 		}
 		if (erlaubt == true)
-		{
 			(*strasse).verboten = false;
-		}
 	}
 }
 
@@ -100,10 +90,4 @@ int StrasseList::FindeRoute(StrasseList strl, StadtList sl, vector<Stadt>::itera
         }
     }
     return 0;
-}
-
-void StrasseList::PrintStrasse(StrasseList strl)
-{
-	for (vector<Strasse>::iterator it = strl.strassen.begin(); it != strl.strassen.end(); it++)
-		cout << it->getVonStadtId() << ", " << it->getNachStadtId() << ", " << it->verboten << "\n";
 }

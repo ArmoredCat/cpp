@@ -21,33 +21,9 @@ public:
 		verboten = false;
 	}
 
-	Stadt(unsigned pId) { id = pId; }  // for comparisons
-
-	void print(ostream& o = cout) const
-	{
-		o << name << " (" << einwohner << ", " << gebietId << ", " << meereshoehe << ")\n";
-	}
-
-	bool operator< (const Stadt& s) const { return id < s.id; }
-
-	bool printOrder(const Stadt* s) const
-	{
-		if (einwohner < s->einwohner) return true;
-		if (einwohner > s->einwohner) return false;
-		if (gebietId < s->gebietId) return true;
-		if (gebietId > s->gebietId) return false;
-		if (meereshoehe < s->meereshoehe) return true;
-		if (meereshoehe > s->meereshoehe) return false;
-		if (name < s->name) return true;
-		if (name > s->name) return false;
-		return false;
-	}
-
 	int getID() const { return id; }
 	string getName() const { return name; }
-	int getEinwohner() const { return einwohner; }
 	int getGebietId() const { return gebietId; }
-	int getMeereshoehe() const { return meereshoehe; }
 
 	bool verboten;
 
@@ -56,12 +32,6 @@ private:
 	string name;
 	unsigned einwohner, gebietId, meereshoehe;
 };
-
-inline ostream& operator<< (ostream& o, const Stadt& s)
-{
-	s.print(o);  return o;
-}
-
 
 class StadtList
 {
@@ -75,8 +45,8 @@ public:
 	vector<Stadt>::iterator begin();
 	bool empty();
 	void insert(Stadt& s);
-	void PrintStadt(StadtList sl);
 	void findVerbStadt(GebietList gl, StadtList &sl);
+
 	vector<Stadt> staedte;
 
 private:
@@ -84,4 +54,3 @@ private:
 };
 
 #endif
-

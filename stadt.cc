@@ -5,15 +5,6 @@
 #include <string>
 #include <iomanip>
 #include <vector>
-#include <fstream>
-
-struct StadtOrder
-{
-	bool operator() (const Stadt* a, const Stadt* b) const
-	{
-		return *a < *b;
-	}
-};
 
 StadtList::StadtList() {
 
@@ -77,10 +68,4 @@ void StadtList::findVerbStadt(GebietList gl, StadtList &sl)
 			}
 		}
 	}
-}
-
-void StadtList::PrintStadt(StadtList sl)
-{
-	for (vector<Stadt>::iterator it = sl.staedte.begin(); it != sl.staedte.end(); it++)
-		cout << it->getName() << ", " << it->verboten << "\n";
 }

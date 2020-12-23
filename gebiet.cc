@@ -1,18 +1,9 @@
 #include "gebiet.h"
-#include <fstream>
 #include <exception>
 #include <string>
 #include <iomanip>
 #include <vector>
 #include <fstream>
-
-struct GebietOrder
-{
-	bool operator() (const Gebiet* a, const Gebiet* b) const
-	{
-		return *a < *b;
-	}
-};
 
 GebietList::GebietList() {
 
@@ -61,10 +52,4 @@ void GebietList::findSubGebiet(vector<Gebiet>::iterator g, GebietList &gl)
 			findSubGebiet(it, gl);
 		}
 	}
-}
-
-void GebietList::PrintGebiet(GebietList verbgeb)
-{
-	for (vector<Gebiet>::iterator it = verbgeb.gebiete.begin(); it != verbgeb.gebiete.end(); it++)
-		cout << it->getName() << ", " << it->verboten << "\n";
 }
