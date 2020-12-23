@@ -5,6 +5,14 @@
 #include <vector>
 #include <fstream>
 
+struct GebietOrder
+{
+	bool operator() (const Gebiet* a, const Gebiet* b) const
+	{
+		return *a < *b;
+	}
+};
+
 GebietList::GebietList() {
 
 }

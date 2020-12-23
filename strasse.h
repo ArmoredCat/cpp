@@ -23,6 +23,22 @@ public:
 		besuchtNachStadt = false;
 	}
 
+	void print(ostream& o = cout) const
+	{
+		o << " (" << vonStadtId << ", " << nachStadtId << ", " << entfernung << ")\n";
+	}
+
+	bool operator< (const Strasse& str) const { return vonStadtId < str.vonStadtId; }
+
+	bool printOrder(const Strasse* str) const
+	{
+		if (nachStadtId < str->nachStadtId) return true;
+		if (nachStadtId > str->nachStadtId) return false;
+		if (entfernung < str->entfernung) return true;
+		if (entfernung > str->entfernung) return false;
+		return false;
+	}
+
 	int getVonStadtId() const { return vonStadtId; }
 	int getNachStadtId() const { return nachStadtId; }
 
@@ -33,6 +49,12 @@ public:
 private:
 	unsigned vonStadtId, nachStadtId, entfernung;
 };
+
+inline ostream& operator<< (ostream& o, const Strasse& str)
+{
+	str.print(o);  return o;
+}
+
 
 class StrasseList
 {

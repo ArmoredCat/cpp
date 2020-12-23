@@ -6,6 +6,14 @@
 #include <iomanip>
 #include <vector>
 
+struct StadtOrder
+{
+	bool operator() (const Stadt* a, const Stadt* b) const
+	{
+		return *a < *b;
+	}
+};
+
 StadtList::StadtList() {
 
 }

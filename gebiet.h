@@ -22,6 +22,23 @@ public:
 	verboten = false;
   }
 
+  Gebiet (unsigned pId) { id = pId; }  // for comparisons
+
+  void print (ostream &o = cout) const
+  { o << name << " (" << obergebietid << ", " << typ << ")\n"; }
+
+  bool operator< (const Gebiet &g) const  { return id < g.id; }
+
+  bool printOrder (const Gebiet *g) const
+  { if (obergebietid < g->obergebietid) return true;
+    if (obergebietid > g->obergebietid) return false;
+    if (typ < g->typ) return true;
+    if (typ > g->typ) return false;
+    if (name < g->name) return true;
+    if (name > g->name) return false;
+    return false;
+  }
+
   int getID() const { return id; }
   string getName() const { return name; }
   int getObergebietid() const { return obergebietid; }
@@ -34,6 +51,9 @@ private:
   unsigned obergebietid;
   string typ;
 };
+
+inline ostream &operator<< (ostream &o, const Gebiet &g)
+{ g.print (o);  return o; }
 
 class GebietList
 {

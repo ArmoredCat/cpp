@@ -8,6 +8,14 @@
 #include <iomanip>
 #include <vector>
 
+struct StrasseOrder
+{
+	bool operator() (const Strasse* a, const Strasse* b) const
+	{
+		return *a < *b;
+	}
+};
+
 StrasseList::StrasseList() {
 
 }
