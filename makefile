@@ -2,7 +2,7 @@ CXXFLAGS=-MMD -MP -Wall
 CC=$(CXX)
 
 PROGRAMS=programm
-OBJECTS=gebiet.o
+OBJECTS=gebiet.o stadt.o
 
 ALLOBJECTS=$(OBJECTS) $(patsubst %,%.o,$(PROGRAMS))
 

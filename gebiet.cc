@@ -45,7 +45,6 @@ vector<Gebiet>::iterator GebietList::findGebiet(string name)
 {
 	for (vector<Gebiet>::iterator it = gebiete.begin(); it != gebiete.end(); it++)	
 	{
-		cout << "(" << it->getName() << ", " << it->getID() << ", " << it->getObergebietid() << ")\n";
 		if (it->getName().compare(name) == 0)
 			return it;
 	}
@@ -58,9 +57,7 @@ GebietList GebietList::findSubGebiet(vector<Gebiet>::iterator g, GebietList verb
 	for (vector<Gebiet>::iterator it = gl.gebiete.begin(); it != gl.gebiete.end(); it++)
 	{
 		if (it->getObergebietid() == g->getID()) {
-			cout << "AAAAAAAAAAAAAARRRRRRRRRRRRRRRRFFFFFFFFFFFFFF\n";
 			verbgeb.insert(*it);
-			PrintGebiet(verbgeb);
 			verbgeb=findSubGebiet(it, verbgeb, gl);
 		}
 	}
