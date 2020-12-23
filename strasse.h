@@ -18,6 +18,9 @@ public:
 	{
 		s >> vonStadtId >> nachStadtId >> entfernung;
 		if (!s)  throw EOFException();  // abort constructor!
+		verboten = false;
+		besuchtVonStadt = false;
+		besuchtNachStadt = false;
 	}
 
 	void print(ostream& o = cout) const
@@ -39,6 +42,12 @@ public:
 	int getVonStadtId() const { return vonStadtId; }
 	int getNachStadtId() const { return nachStadtId; }
 	int getEntfernung() const { return entfernung; }
+	void setVonStadtId(int newint) { vonStadtId=newint; }
+	void setNachStadtId(int newint) { nachStadtId=newint; }
+
+	bool verboten;
+	bool besuchtVonStadt;
+	bool besuchtNachStadt;
 
 private:
 	unsigned vonStadtId, nachStadtId, entfernung;
@@ -61,8 +70,8 @@ public:
 	bool empty();
 	void insert(Strasse& str);
 	void PrintStrasse(StrasseList strl);
-	StrasseList findErlStrasse(StrasseList verbstrasse, StadtList verbstadt, StrasseList strl);
-	int FindeRoute(StrasseList erlStrasse, StadtList sl, vector<Stadt>::iterator startstadt, vector<Gebiet>::iterator zielstadt);
+	void findErlStrasse(StadtList sl, StrasseList &strl);
+	int FindeRoute(StrasseList strl, StadtList sl, vector<Stadt>::iterator startstadt, vector<Stadt>::iterator zielstadt);
 	vector<Strasse> strassen;
 
 private:

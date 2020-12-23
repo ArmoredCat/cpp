@@ -43,29 +43,28 @@ void GebietList::insert(Gebiet& g) {
 
 vector<Gebiet>::iterator GebietList::findGebiet(string name)
 {
-	for (vector<Gebiet>::iterator it = gebiete.begin(); it != gebiete.end(); it++)	
+	for (vector<Gebiet>::iterator it = gebiete.begin(); it != gebiete.end(); it++)
 	{
 		if (it->getName().compare(name) == 0)
 			return it;
 	}
 	cout << "Das eingegebene Gebiet '" << name << "' existiert nicht!\n";
 	exit(1);
-}	
+}
 
-GebietList GebietList::findSubGebiet(vector<Gebiet>::iterator g, GebietList verbgeb, GebietList gl)
+void GebietList::findSubGebiet(vector<Gebiet>::iterator g, GebietList &gl)
 {
+	(*g).verboten=true;
 	for (vector<Gebiet>::iterator it = gl.gebiete.begin(); it != gl.gebiete.end(); it++)
 	{
 		if (it->getObergebietid() == g->getID()) {
-			verbgeb.insert(*it);
-			verbgeb=findSubGebiet(it, verbgeb, gl);
+			findSubGebiet(it, gl);
 		}
 	}
-	return verbgeb;
 }
 
 void GebietList::PrintGebiet(GebietList verbgeb)
 {
 	for (vector<Gebiet>::iterator it = verbgeb.gebiete.begin(); it != verbgeb.gebiete.end(); it++)
-		cout << it->getName() << "\n";
+		cout << it->getName() << ", " << it->verboten << "\n";
 }

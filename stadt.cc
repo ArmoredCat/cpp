@@ -46,7 +46,6 @@ vector<Stadt>::iterator StadtList::findStadt(string name)
 {
 	for (vector<Stadt>::iterator it = staedte.begin(); it != staedte.end(); it++)
 	{
-		cout << "(" << it->getName() << ", " << it->getID() << ", " << it->getGebietId() << ")\n";
 		if (it->getName().compare(name) == 0)
 			return it;
 	}
@@ -58,7 +57,6 @@ vector<Stadt>::iterator StadtList::findStadt(int id)
 {
 	for (vector<Stadt>::iterator it = staedte.begin(); it != staedte.end(); it++)
 	{
-		cout << "(" << it->getName() << ", " << it->getID() << ", " << it->getGebietId() << ")\n";
 		if (it->getID() == id)
 			return it;
 	}
@@ -66,22 +64,23 @@ vector<Stadt>::iterator StadtList::findStadt(int id)
 	exit(1);
 }
 
-StadtList StadtList::findVerbStadt(StadtList verbstadt, GebietList verbgeb, StadtList sl)
+void StadtList::findVerbStadt(GebietList gl, StadtList &sl)
 {
-	for (vector<Gebiet>::iterator gebiet = verbgeb.gebiete.begin(); gebiet != verbgeb.gebiete.end(); gebiet++)
+	for (vector<Gebiet>::iterator gebiet = gl.gebiete.begin(); gebiet != gl.gebiete.end(); gebiet++)
 	{
+		if (gebiet->verboten == false)
+			continue;
 		for (vector<Stadt>::iterator stadt = sl.staedte.begin(); stadt != sl.staedte.end(); stadt++)
 		{
 			if (stadt->getGebietId() == gebiet->getID()) {
-				verbstadt.insert(*stadt);
+				(*stadt).verboten=true;
 			}
 		}
 	}
-	return verbstadt;
 }
 
 void StadtList::PrintStadt(StadtList sl)
 {
 	for (vector<Stadt>::iterator it = sl.staedte.begin(); it != sl.staedte.end(); it++)
-		cout << it->getName() << "\n";
+		cout << it->getName() << ", " << it->verboten << "\n";
 }

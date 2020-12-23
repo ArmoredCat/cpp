@@ -43,50 +43,58 @@ void StrasseList::insert(Strasse& g) {
 	strassen.push_back(g);
 }
 
-StrasseList StrasseList::findErlStrasse(StrasseList erlstrasse, StadtList verbstadt, StrasseList strl)
+void StrasseList::findErlStrasse(StadtList sl, StrasseList &strl)
 {
-	int boo;
+	bool erlaubt;
 
 	for (vector<Strasse>::iterator strasse = strl.strassen.begin(); strasse != strl.strassen.end(); strasse++)
 	{
-		boo = 1;
-		for (vector<Stadt>::iterator stadt = verbstadt.staedte.begin(); stadt != verbstadt.staedte.end(); stadt++)
+		erlaubt = true;
+		for (vector<Stadt>::iterator stadt = sl.staedte.begin(); stadt != sl.staedte.end(); stadt++)
 		{
 			if (stadt->getID() == strasse->getVonStadtId() || stadt->getID() == strasse->getNachStadtId()) {
-				boo = 0;
-				break;
+				if (stadt->verboten == true)
+				{
+					erlaubt = false;
+					break;
+				}
 			}
 		}
-		if(boo==1)
-			erlstrasse.insert(*strasse);
+		if (erlaubt == true)
+		{
+			(*strasse).verboten = false;
+		}
 	}
-	return erlstrasse;
 }
 
-int StrasseList::FindeRoute(StrasseList erlStrasse, StadtList sl, vector<Stadt>::iterator startstadt, vector<Gebiet>::iterator zielstadt)
+int StrasseList::FindeRoute(StrasseList strl, StadtList sl, vector<Stadt>::iterator startstadt, vector<Stadt>::iterator zielstadt)
 {
     if (startstadt->getID() == zielstadt->getID())
     {
-        fprintf(stderr, "%s\n", startstadt->getName());
+        cout << startstadt->getName() << "\n";
         return 1;
     }
-	for (vector<Strasse>::iterator strasse = erlStrasse.strassen.begin(); strasse != erlStrasse.strassen.end(); strasse++)
+	for (vector<Strasse>::iterator strasse = strl.strassen.begin(); strasse != strl.strassen.end(); strasse++)
 	{
-        if (strasse->vonStadtId() == 0 || strasse->nachStadtId() == 0)
+		if (strasse->verboten == true)
+			continue;
+		else if (strasse->besuchtVonStadt == true || strasse->besuchtNachStadt == true)
             continue;
-        else if (startstadt->getID() == strasse->getVonStadtId)
+        else if (startstadt->getID() == strasse->getVonStadtId())
         {
-            if (FindeRoute(erlStrasse, sl, sl.findStadt(strasse->getNachStadtId), zielstadt) == 1)
+			(*strasse).besuchtVonStadt=true;
+            if (FindeRoute(strl, sl, sl.findStadt(strasse->getNachStadtId()), zielstadt) == 1)
             {
-                cout << "\n" << startstadt->getName();
+                cout << startstadt->getName() << "\n";
                 return 1;
             }
         }
-        else if (startstadt->getID == strasse->getNachStadtId)
+        else if (startstadt->getID() == strasse->getNachStadtId())
         {
-			if (FindeRoute(erlStrasse, sl, sl.findStadt(strasse->getVonStadtId), zielstadt) == 1)
+			(*strasse).besuchtNachStadt=true;
+			if (FindeRoute(strl, sl, sl.findStadt(strasse->getVonStadtId()), zielstadt) == 1)
 			{
-				cout << "\n" << startstadt->getName();
+				cout << startstadt->getName() << "\n";
 				return 1;
             }
         }
@@ -97,5 +105,5 @@ int StrasseList::FindeRoute(StrasseList erlStrasse, StadtList sl, vector<Stadt>:
 void StrasseList::PrintStrasse(StrasseList strl)
 {
 	for (vector<Strasse>::iterator it = strl.strassen.begin(); it != strl.strassen.end(); it++)
-		cout << it->getVonStadtId() << ", " << it->getNachStadtId() << "\n";
+		cout << it->getVonStadtId() << ", " << it->getNachStadtId() << ", " << it->verboten << "\n";
 }

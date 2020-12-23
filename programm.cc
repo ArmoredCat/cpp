@@ -13,17 +13,24 @@ int main(int argc, char* argv[])
         exit(1);
     }
     GebietList gl(argv[2]);
-    GebietList verbgeb;
-    verbgeb.insert(*gl.findGebiet(argv[6]));
-    verbgeb = gl.findSubGebiet(gl.findGebiet(argv[6]), verbgeb, gl);
+    gl.findSubGebiet(gl.findGebiet(argv[6]), gl);
     StadtList sl(argv[1]);
-    StadtList verbstadt;
-    verbstadt = verbstadt.findVerbStadt(verbstadt, verbgeb, sl);
+    for (vector<Gebiet>::iterator gebiet = gl.gebiete.begin(); gebiet != gl.gebiete.end(); gebiet++)
+    {
+        if (gebiet->verboten == false)
+            continue;
+        if (sl.findStadt(argv[4])->getGebietId() == gebiet->getID() || sl.findStadt(argv[5])->getGebietId() == gebiet->getID())
+        {
+            sl.findStadt(argv[5]);
+            cout << "Es gibt keine erlaubte Route von " << argv[4] << " nach " << argv[5] << ".\n";
+            return(0);
+        }
+    }
+    sl.findVerbStadt(gl, sl);
     StrasseList strl(argv[3]);
-    StrasseList erlstrasse;
-    erlstrasse = erlstrasse.findErlStrasse(erlstrasse, verbstadt, strl);
-    erlstrasse.PrintStrasse(erlstrasse);
-    if (FindeRoute(erlStrasse, sl, sl.findStadt(argv[5]), sl.findStadt(argv[4])) == 0)
-        cout << "Es gibt keine erlaubte Route von " << argv[4] << " nach " << argv[5]) << ".\n";
+    strl.findErlStrasse(sl, strl);
+    if (strl.FindeRoute(strl, sl, sl.findStadt(argv[5]), sl.findStadt(argv[4])) == 0)
+        cout << "Es gibt keine erlaubte Route von " << argv[4] << " nach " << argv[5] << ".\n";
+    return(0);
 }
 

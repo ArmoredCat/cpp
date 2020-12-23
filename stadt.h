@@ -18,6 +18,7 @@ public:
 		s >> id >> name >> einwohner >> gebietId >> meereshoehe;
 		if (!s)  throw EOFException();  // abort constructor!
 		replace_if(name.begin(), name.end(), bind2nd(equal_to<char>(), '_'), ' ');
+		verboten = false;
 	}
 
 	Stadt(unsigned pId) { id = pId; }  // for comparisons
@@ -48,6 +49,8 @@ public:
 	int getGebietId() const { return gebietId; }
 	int getMeereshoehe() const { return meereshoehe; }
 
+	bool verboten;
+
 private:
 	unsigned id;
 	string name;
@@ -73,7 +76,7 @@ public:
 	bool empty();
 	void insert(Stadt& s);
 	void PrintStadt(StadtList sl);
-	StadtList findVerbStadt(StadtList verbstadt, GebietList verbgeb, StadtList sl);
+	void findVerbStadt(GebietList gl, StadtList &sl);
 	vector<Stadt> staedte;
 
 private:

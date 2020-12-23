@@ -19,6 +19,7 @@ public:
     if (!s)  throw EOFException ();  // abort constructor!
     replace_if (name.begin (), name.end (), bind2nd (equal_to<char> (), '_'), ' ');
     replace_if (typ.begin (), typ.end (), bind2nd (equal_to<char> (), '_'), ' ');
+	verboten = false;
   }
 
   Gebiet (unsigned pId) { id = pId; }  // for comparisons
@@ -38,10 +39,13 @@ public:
     return false;
   }
 
+  void setVerboten() { verboten = true; }
   int getID() const { return id; }
   string getName() const { return name; }
   int getObergebietid() const { return obergebietid; }
   string getTyp() const { return typ; }
+
+  bool verboten;
 
 private:
   unsigned id;
@@ -65,7 +69,7 @@ public:
 	vector<Gebiet>::iterator begin();
 	bool empty();
 	void insert(Gebiet& p);
-	GebietList findSubGebiet(vector<Gebiet>::iterator g, GebietList verbgeb, GebietList gl);
+	void findSubGebiet(vector<Gebiet>::iterator g, GebietList &gl);
 	void PrintGebiet(GebietList verbgeb);
 	
 	vector<Gebiet> gebiete;
